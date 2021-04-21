@@ -7,9 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.ciss.domain.Funcionario;
 import com.ciss.repositories.FuncionarioRepository;
-import com.ciss.services.exceptions.DeleteException;
+import com.ciss.services.exceptions.DataIntegrityException;
 import com.ciss.services.exceptions.ObjectNotFoundException;
-import com.ciss.services.exceptions.ObjectNullException;
 
 @Service
 public class FuncionarioService {
@@ -18,11 +17,8 @@ public class FuncionarioService {
 	private FuncionarioRepository repository;
 	
 	public Funcionario insert(Funcionario funcionario) {
-		if (funcionario != null) {
-			funcionario.setId(null);
-			return repository.save(funcionario);
-		}
-		throw new ObjectNullException("Não é possível inserir um objeto nulo");
+		funcionario.setId(null);
+		return repository.save(funcionario);
 	}
 	
 	public void delete(Integer id) {
@@ -33,15 +29,12 @@ public class FuncionarioService {
 			} 
 			repository.deleteById(funcionario.get().getId());
 		} catch (Exception e) {
-			throw new DeleteException("Não foi possível excluir funcionário");
+			throw new DataIntegrityException("Não foi possível excluir funcionário");
 		}
 	}
 	
 	public Funcionario update(Funcionario funcionario) {
-		if (funcionario != null) {
-			return repository.saveAndFlush(funcionario);
-		}
-		throw new ObjectNullException("Não é possível atualizar um objeto nulo");
+		return repository.saveAndFlush(funcionario);
 	}
 	
 	public Funcionario find(Integer id) {
