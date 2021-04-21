@@ -46,10 +46,10 @@ public class FuncionarioUpdateValidator implements ConstraintValidator<Funcionar
 		Map<String, String> map = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
 		int id = Integer.parseInt(map.get("id"));
 		if (funcionarioEmail != null && id != funcionarioEmail.getId()) {
-			lista.add(new FieldMessage("E-mail", "E-mail já existente"));
+			lista.add(new FieldMessage("email", "E-mail já existente"));
 		}
 		if (funcionarioPIS != null && id != funcionarioPIS.getId()) {
-			lista.add(new FieldMessage("Número PIS", "Número PIS já existente"));
+			lista.add(new FieldMessage("numeroPIS", "Número PIS já existente"));
 		}
 		return lista;
 	}

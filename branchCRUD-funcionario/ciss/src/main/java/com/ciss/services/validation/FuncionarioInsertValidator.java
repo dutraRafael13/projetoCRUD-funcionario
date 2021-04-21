@@ -38,10 +38,10 @@ public class FuncionarioInsertValidator implements ConstraintValidator<Funcionar
 	private List<FieldMessage> validaEmailEPIS(Funcionario funcionarioEmail, Funcionario funcionarioPIS) {
 		List<FieldMessage> lista = new ArrayList<>();
 		if (funcionarioEmail != null) {
-			lista.add(new FieldMessage("E-mail", "E-mail já existente"));
+			lista.add(new FieldMessage("email", "E-mail já existente"));
 		}
 		if (funcionarioPIS != null) {
-			lista.add(new FieldMessage("Número PIS", "Número PIS já existente"));
+			lista.add(new FieldMessage("numeroPIS", "Número PIS já existente"));
 		}
 		return lista;
 	}
