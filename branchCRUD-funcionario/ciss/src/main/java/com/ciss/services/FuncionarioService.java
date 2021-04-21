@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ciss.domain.Funcionario;
 import com.ciss.dto.FuncionarioDTO;
+import com.ciss.dto.FuncionarioNewDTO;
 import com.ciss.repositories.FuncionarioRepository;
 import com.ciss.services.exceptions.DataIntegrityException;
 import com.ciss.services.exceptions.ObjectNotFoundException;
@@ -44,6 +45,10 @@ public class FuncionarioService {
 	}
 	
 	public Funcionario fromDTO(FuncionarioDTO dto) {
+		return new Funcionario(dto.getId(), dto.getNome(), dto.getSobrenome(), dto.getEmail(), dto.getNumeroPIS());
+	}
+	
+	public Funcionario fromNewDTO(FuncionarioNewDTO dto) {
 		return new Funcionario(dto.getId(), dto.getNome(), dto.getSobrenome(), dto.getEmail(), dto.getNumeroPIS());
 	}
 

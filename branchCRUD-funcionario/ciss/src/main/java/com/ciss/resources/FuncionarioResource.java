@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.ciss.domain.Funcionario;
 import com.ciss.dto.FuncionarioDTO;
+import com.ciss.dto.FuncionarioNewDTO;
 import com.ciss.services.FuncionarioService;
 
 @RestController
@@ -25,8 +26,8 @@ public class FuncionarioResource {
 	private FuncionarioService service;
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody FuncionarioDTO dto) {
-		Funcionario funcionario = service.fromDTO(dto);
+	public ResponseEntity<Void> insert(@Valid @RequestBody FuncionarioNewDTO dto) {
+		Funcionario funcionario = service.fromNewDTO(dto);
 		funcionario = service.insert(funcionario);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(funcionario.getId())
 				.toUri();
@@ -40,8 +41,9 @@ public class FuncionarioResource {
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@Valid @RequestBody FuncionarioDTO dto) {
+	public ResponseEntity<Void> update(@Valid @RequestBody FuncionarioDTO dto, @PathVariable Integer id) {
 		Funcionario funcionario = service.fromDTO(dto);
+		funcionario.setId(id);
 		funcionario = service.update(funcionario);
 		return ResponseEntity.noContent().build();
 	}

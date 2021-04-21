@@ -2,29 +2,34 @@ package com.ciss.services.validation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.HandlerMapping;
 
 import com.ciss.domain.Funcionario;
 import com.ciss.dto.FuncionarioDTO;
-import com.ciss.dto.FuncionarioNewDTO;
 import com.ciss.repositories.FuncionarioRepository;
 import com.ciss.resources.exceptions.FieldMessage;
 
-public class FuncionarioInsertValidator implements ConstraintValidator<FuncionarioInsert, FuncionarioNewDTO> {
+public class FuncionarioUpdateValidator implements ConstraintValidator<FuncionarioUpdate, FuncionarioDTO> {
+	
+	@Autowired
+	private HttpServletRequest request;
 	
 	@Autowired
 	private FuncionarioRepository repository;
 
 	@Override
-	public void initialize(FuncionarioInsert ann) {
+	public void initialize(FuncionarioUpdate ann) {
 	}
 	
 	@Override
-	public boolean isValid(FuncionarioNewDTO objDto, ConstraintValidatorContext context) {
+	public boolean isValid(FuncionarioDTO objDto, ConstraintValidatorContext context) {
 		List<FieldMessage> lista = this.validaEmailEPIS(repository.findByEmail(objDto.getEmail()),
 				repository.findByNumeroPIS(objDto.getNumeroPIS()));
 		for (FieldMessage e : lista) {
@@ -35,12 +40,15 @@ public class FuncionarioInsertValidator implements ConstraintValidator<Funcionar
 		return lista.isEmpty();
 	}
 	
+	@SuppressWarnings("unchecked")
 	private List<FieldMessage> validaEmailEPIS(Funcionario funcionarioEmail, Funcionario funcionarioPIS) {
 		List<FieldMessage> lista = new ArrayList<>();
-		if (funcionarioEmail != null) {
+		Map<String, String> map = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+		int id = Integer.parseInt(map.get("id"));
+		if (funcionarioEmail != null && id != funcionarioEmail.getId()) {
 			lista.add(new FieldMessage("E-mail", "E-mail já existente"));
 		}
-		if (funcionarioPIS != null) {
+		if (funcionarioPIS != null && id != funcionarioPIS.getId()) {
 			lista.add(new FieldMessage("Número PIS", "Número PIS já existente"));
 		}
 		return lista;

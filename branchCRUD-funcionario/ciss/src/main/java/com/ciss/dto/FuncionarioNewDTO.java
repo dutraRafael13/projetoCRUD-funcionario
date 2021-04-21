@@ -8,10 +8,10 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.ciss.services.validation.FuncionarioUpdate;
+import com.ciss.services.validation.FuncionarioInsert;
 
-@FuncionarioUpdate
-public class FuncionarioDTO implements Serializable {
+@FuncionarioInsert
+public class FuncionarioNewDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,7 +31,7 @@ public class FuncionarioDTO implements Serializable {
 	@Digits(fraction = 0, integer = 11, message = "Número PIS inválido")
 	private Long numeroPIS;
 	
-	public FuncionarioDTO() {
+	public FuncionarioNewDTO() {
 		this.id = 0;
 		this.nome = "";
 		this.sobrenome = "";
@@ -39,7 +39,7 @@ public class FuncionarioDTO implements Serializable {
 		this.numeroPIS = 0L;
 	}
 	
-	public FuncionarioDTO(Integer id, String nome, String sobrenome, String email, Long numeroPIS) {
+	public FuncionarioNewDTO(Integer id, String nome, String sobrenome, String email, Long numeroPIS) {
 		this.id = id;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
