@@ -38,5 +38,12 @@ public class FuncionarioResource {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(@Valid @RequestBody FuncionarioDTO dto) {
+		Funcionario funcionario = service.fromDTO(dto);
+		funcionario = service.update(funcionario);
+		return ResponseEntity.noContent().build();
+	}
 
 }
