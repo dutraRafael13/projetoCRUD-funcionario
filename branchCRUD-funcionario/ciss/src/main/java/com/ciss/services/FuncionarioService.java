@@ -9,14 +9,17 @@ import com.ciss.domain.Funcionario;
 import com.ciss.dto.FuncionarioDTO;
 import com.ciss.dto.FuncionarioNewDTO;
 import com.ciss.repositories.FuncionarioRepository;
-import com.ciss.services.exceptions.DataIntegrityException;
 import com.ciss.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class FuncionarioService {
 	
-	@Autowired
 	private FuncionarioRepository repository;
+	
+	@Autowired
+	public FuncionarioService(FuncionarioRepository repository) {
+		this.repository = repository;
+	}
 	
 	public Funcionario insert(Funcionario funcionario) {
 		funcionario.setId(null);
@@ -24,15 +27,11 @@ public class FuncionarioService {
 	}
 	
 	public void delete(Integer id) {
-		try {
-			Optional<Funcionario> funcionario = repository.findById(id);
-			if (!funcionario.isPresent()) {
-				throw new ObjectNotFoundException("Funcionário não encontrado, ID: " + id);
-			} 
-			repository.deleteById(funcionario.get().getId());
-		} catch (Exception e) {
-			throw new DataIntegrityException("Não foi possível excluir funcionário");
+		Optional<Funcionario> funcionario = repository.findById(id);
+		if (!funcionario.isPresent()) {
+			throw new ObjectNotFoundException("Funcionário não encontrado, ID: " + id);
 		}
+		repository.deleteById(funcionario.get().getId());
 	}
 	
 	public Funcionario update(Funcionario funcionario) {
