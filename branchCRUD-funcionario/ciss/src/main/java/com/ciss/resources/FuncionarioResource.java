@@ -45,5 +45,11 @@ public class FuncionarioResource {
 		funcionario = service.update(funcionario);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Funcionario> find(@PathVariable Integer id) {
+		Funcionario funcionario = service.find(id);
+		return ResponseEntity.ok().body(funcionario); 
+	}
 
 }
