@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ciss.domain.Funcionario;
+import com.ciss.dto.FuncionarioDTO;
 import com.ciss.repositories.FuncionarioRepository;
 import com.ciss.services.exceptions.DataIntegrityException;
 import com.ciss.services.exceptions.ObjectNotFoundException;
@@ -40,6 +41,10 @@ public class FuncionarioService {
 	public Funcionario find(Integer id) {
 		Optional<Funcionario> funcionario = repository.findById(id);
 		return funcionario.orElseThrow(() -> new ObjectNotFoundException("Funcionário não encontrado, ID: " + id));
+	}
+	
+	public Funcionario fromDTO(FuncionarioDTO dto) {
+		return new Funcionario(dto.getId(), dto.getNome(), dto.getSobrenome(), dto.getEmail(), dto.getNumeroPIS());
 	}
 
 }
