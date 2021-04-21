@@ -28,11 +28,10 @@ public class FuncionarioService {
 	public void delete(Integer id) {
 		try {
 			Optional<Funcionario> funcionario = repository.findById(id);
-			if (funcionario.isPresent()) {
-				repository.deleteById(funcionario.get().getId());
-			} else {
+			if (!funcionario.isPresent()) {
 				throw new ObjectNotFoundException("Funcionário não encontrado, ID: " + id);
-			}
+			} 
+			repository.deleteById(funcionario.get().getId());
 		} catch (Exception e) {
 			throw new DeleteException("Não foi possível excluir funcionário");
 		}
