@@ -17,7 +17,7 @@ public class FuncionarioService {
 	@Autowired
 	private FuncionarioRepository repository;
 	
-	public Funcionario insert(Funcionario funcionario) throws RuntimeException {
+	public Funcionario insert(Funcionario funcionario) {
 		if (funcionario != null) {
 			funcionario.setId(null);
 			return repository.save(funcionario);
@@ -31,7 +31,7 @@ public class FuncionarioService {
 			if (funcionario.isPresent()) {
 				repository.deleteById(funcionario.get().getId());
 			} else {
-				throw new ObjectNotFoundException("Funcionário não encontrado");
+				throw new ObjectNotFoundException("Funcionário não encontrado, ID: " + id);
 			}
 		} catch (Exception e) {
 			throw new DeleteException("Não foi possível excluir funcionário");
@@ -47,10 +47,7 @@ public class FuncionarioService {
 	
 	public Funcionario find(Integer id) {
 		Optional<Funcionario> funcionario = repository.findById(id);
-		if (funcionario.isPresent()) {
-			return funcionario.get();
-		}
-		throw new ObjectNotFoundException("Funcionário não encontrado");
+		return funcionario.orElseThrow(() -> new ObjectNotFoundException("Funcionário não encontrado, ID: " + id));
 	}
 
 }
