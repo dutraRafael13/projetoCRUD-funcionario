@@ -8,6 +8,9 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.ciss.services.validation.FuncionarioInsert;
+
+@FuncionarioInsert
 public class FuncionarioDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -22,10 +25,10 @@ public class FuncionarioDTO implements Serializable {
 	@Length(min = 2, max = 50, message = "O tamanho deve ser entre 2 e 50 caracteres")
 	private String sobrenome;
 	
-	@Email
+	@Email(message = "E-mail inválido")
 	private String email;
 	
-	@Digits(fraction = 0, integer = 11)
+	@Digits(fraction = 0, integer = 11, message = "Número PIS inválido")
 	private Long numeroPIS;
 	
 	public FuncionarioDTO() {

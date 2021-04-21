@@ -20,13 +20,13 @@ public class Funcionario implements Serializable {
 	@Column
 	private String nome;
 	
-	@Column
+	@Column(unique = true)
 	private String sobrenome;
 	
 	@Column
 	private String email;
 	
-	@Column
+	@Column(unique = true)
 	private Long numeroPIS;
 	
 	public Funcionario() {
